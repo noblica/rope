@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "webpack --config webpack.config.js --watch"
+    "serve": "webpack --config webpack.config.js --watch",
+    "prettier": "prettier --write **/src/*.{ts,tsx}"
   },
   "author": "Dusan Perkovic",
   "license": "MIT",
