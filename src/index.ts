@@ -8,11 +8,11 @@ import {
   setChangeListener,
   setElem,
   convertToJson
-} from './utils.js';
+} from './utils';
 
 // Using a decorator, because decorators rule.
 
-export function Rope(params?: any) {
+export function Rope() {
   return <T extends { new(...args: any[]) : {} }>(originalConstructor: T) => {
     return class extends originalConstructor {
       constructor(...args: any[]) {
