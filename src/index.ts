@@ -1,7 +1,7 @@
-import {ropeOut} from './rope-out';
-import {ropeIn} from './rope-in';
-import {ropeDouble} from './rope-double';
-import {ropeClass} from './rope-class';
+import { ropeOut } from './rope-out';
+import { ropeIn } from './rope-in';
+import { ropeDouble } from './rope-double';
+import { ropeClass } from './rope-class';
 
 import {
   getElemArray,
@@ -13,7 +13,7 @@ import {
 // Using a decorator, because decorators rule.
 
 export function Rope(context?: any) {
-  return <T extends { new(...args: any[]) : {} }>(originalConstructor: T) => {
+  return <T extends { new (...args: any[]): {} }>(originalConstructor: T) => {
     return class extends originalConstructor {
       constructor(...args: any[]) {
         // We need a class instance, that's why we're basically
@@ -30,6 +30,6 @@ export function Rope(context?: any) {
 
         ropeClass(boundValues, this);
       }
-    }
-  }
+    };
+  };
 }

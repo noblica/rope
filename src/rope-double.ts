@@ -7,20 +7,16 @@ import {
 
 import { IBoundValues } from './IBoundValues';
 
-export function ropeDouble(
-  boundValues: IBoundValues,
-  classInstance: any
-) {
-    const ropeDouble = getElemArray('[data-g-rope]');
+export function ropeDouble(boundValues: IBoundValues, classInstance: any) {
+  const ropeDouble = getElemArray('[data-g-rope]');
 
-      ropeDouble.forEach((elem: HTMLElement) => {
-      
-      // The value of each data-g-rope attribute represents the 
-      // variable name that it's bound to, in the class instance.
-      // We use it as a key value, in the value cache(boundValues) object, as well.
-      const propName = elem.dataset['gRope'];
-      defineBinding(elem, propName, boundValues, classInstance);
-    });
+  ropeDouble.forEach((elem: HTMLElement) => {
+    // The value of each data-g-rope attribute represents the
+    // variable name that it's bound to, in the class instance.
+    // We use it as a key value, in the value cache(boundValues) object, as well.
+    const propName = elem.dataset['gRope'];
+    defineBinding(elem, propName, boundValues, classInstance);
+  });
 }
 
 // The meat of the decorator.
@@ -32,11 +28,10 @@ function defineBinding(
   boundValues: IBoundValues,
   classInstance: any
 ) {
-
   // Add the current value of the property, to our value cache.
-  boundValues[propName] = boundValues[propName] ?
-    boundValues[propName] :
-    classInstance[propName];
+  boundValues[propName] = boundValues[propName]
+    ? boundValues[propName]
+    : classInstance[propName];
 
   const newSetter = (newValue: any) => {
     boundValues[propName] = newValue;
@@ -52,12 +47,12 @@ function defineBinding(
 
   // We define the getter and setter properties.
   // for the getter and setter, we use the cached values,
-  // because we don't want to fall into an infinite loop 
+  // because we don't want to fall into an infinite loop
   Object.defineProperty(classInstance, propName, {
     get: () => boundValues[propName],
-    set: (newValue) => {
-        cachedSetters[propName].forEach(setterFn => setterFn(newValue));
-      },
+    set: newValue => {
+      cachedSetters[propName].forEach(setterFn => setterFn(newValue));
+    }
   });
 
   // Set the event listener, that listens to the change event,
