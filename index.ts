@@ -1,7 +1,7 @@
 import { Rope } from './src';
 
 // Import stylesheets
-// import './style.css';
+import './style.css';
 
 @Rope()
 export class DoubleBinding {

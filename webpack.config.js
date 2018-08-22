@@ -1,4 +1,4 @@
-const TsConfigWebpackPlugin = require('ts-config-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -14,6 +14,20 @@ module.exports = {
                   loader: 'ts-loader',
                 }
               ]
+          },
+          {
+            test: /\.(css)$/,
+            use: [
+              MiniCssExtractPlugin.loader,
+              {
+                loader: 'css-loader',
+                options: {
+                    minimize: false,
+                    sourceMap: true,
+                    importLoaders: 2
+                }
+              }
+            ],
           }
       ]
   },
@@ -21,6 +35,8 @@ module.exports = {
       extensions: [ '.ts', '.tsx', '.js' ]
   },
   plugins: [
-    new TsConfigWebpackPlugin()
+    new MiniCssExtractPlugin({
+      filename: 'style.css'
+  })
   ],
 };
