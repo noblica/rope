@@ -1,19 +1,19 @@
-import {Rope} from './rope';
+import { Rope } from './src';
 
 // Import stylesheets
 import './style.css';
 
 @Rope()
 export class DoubleBinding {
-  appDiv: HTMLElement;
-  changeMe: String;
-  changeMeToo: String;
-  changeMeDiv: String;
-  
-  testClass: Boolean;
-  booleanTest: Boolean;
-  selectTest: Number;
-  radioTest: String;
+  appDiv: HTMLElement | null;
+  changeMe: string;
+  changeMeToo: string;
+  changeMeDiv: string;
+
+  testClass: boolean;
+  booleanTest: boolean;
+  selectTest: number;
+  radioTest: string;
 
   constructor() {
     this.appDiv = document.getElementById('app');
@@ -29,7 +29,11 @@ export class DoubleBinding {
 
     this.radioTest = 'male';
 
-    this.appDiv.innerHTML = `<h1>JS Starter</h1>`;
+    if(this.appDiv) {
+      this.appDiv.innerHTML = `<h1>JS Starter</h1>`;
+    }
+
+    const checkbox = document.querySelector('.my-checkbox');
   }
 }
 
@@ -49,10 +53,10 @@ setTimeout(() => {
   doubleBind.selectTest = 17;
   doubleBind.radioTest = 'other';
   // doubleBind.testClass = false;
-  
+
 }, 3000);
 
 setTimeout(() => {
   console.log(doubleBind);
-  
+
 }, 5000);
