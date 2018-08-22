@@ -12,7 +12,7 @@ import {
 
 // Using a decorator, because decorators rule.
 
-export function Rope() {
+export function Rope(context?: any) {
   return <T extends { new(...args: any[]) : {} }>(originalConstructor: T) => {
     return class extends originalConstructor {
       constructor(...args: any[]) {
