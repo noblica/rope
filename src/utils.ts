@@ -58,5 +58,7 @@ export function getElemArray(selector) {
     }
   };
   
-  export const cachedSetters = {};
+  export const cachedSetters: {
+    [key: string]: Function[]
+  } = {};
   

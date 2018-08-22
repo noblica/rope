@@ -4,10 +4,16 @@ import {
     cachedSetters
   } from './utils';
   
-export function ropeClass(boundValues, classInstance) {
+
+import { IBoundValues } from './IBoundValues';
+
+export function ropeClass(
+    boundValues: IBoundValues,
+    classInstance: any
+) {
   const ropeClass = getElemArray('[rope-class]');
   
-  ropeClass.forEach(elem => {
+  ropeClass.forEach((elem: HTMLElement)  => {
     const classConditionObject = elem.getAttribute('rope-class');
     const classJson = convertToJson(classConditionObject);
     
@@ -19,14 +25,22 @@ export function ropeClass(boundValues, classInstance) {
 }
   
   
-function defineClassBinding(elem, classVar, className, boundValues, classInstance) {
+function defineClassBinding(
+    elem: HTMLElement,
+    classVar: any,
+    className: string,
+    boundValues: IBoundValues,
+    classInstance: any
+) {
 
 // Add the current value of the property, to our value cache.
-boundValues[classVar] = boundValues[classVar] ? boundValues[classVar] : classInstance[classVar];
+boundValues[classVar] = boundValues[classVar] ?
+    boundValues[classVar] :
+    classInstance[classVar];
 
 setClassElem(elem, boundValues[classVar], className);
 
-const classSetter = (newValue) => {
+const classSetter = (newValue: boolean) => {
     boundValues[classVar] = newValue;
 
     setClassElem(elem, newValue, className);
@@ -46,9 +60,13 @@ Object.defineProperty(classInstance, classVar, {
 });
 }
 
-function setClassElem(elem, newValue, className){
+function setClassElem(
+    elem: HTMLElement,
+    newValue: boolean,
+    className: string
+){
     if (newValue) {
-    return elem.classList.add(className);
+        return elem.classList.add(className);
     }
     return elem.classList.remove(className);
 }
