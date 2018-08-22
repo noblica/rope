@@ -2,9 +2,8 @@ import {
     getElemArray,
     convertToJson,
     cachedSetters
-  } from './utils';
+} from './utils';
   
-
 import { IBoundValues } from './IBoundValues';
 
 export function ropeClass(
@@ -15,12 +14,14 @@ export function ropeClass(
   
   ropeClass.forEach((elem: HTMLElement)  => {
     const classConditionObject = elem.getAttribute('rope-class');
-    const classJson = convertToJson(classConditionObject);
-    
-    const classVar = Object.keys(classJson)[0];
-    const className = classJson[classVar];
+    if (classConditionObject) {
+        const classJson = convertToJson(classConditionObject);
+        
+        const classVar = Object.keys(classJson)[0];
+        const className = classJson[classVar];
 
-    defineClassBinding(elem, classVar, className, boundValues, classInstance);
+        defineClassBinding(elem, classVar, className, boundValues, classInstance);
+    }
   });
 }
   
