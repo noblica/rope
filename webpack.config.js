@@ -1,3 +1,4 @@
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -5,6 +6,9 @@ module.exports = {
   devtool: 'inline-source-map',
   context: __dirname,
   entry: './index.ts',
+  devServer: {
+       contentBase: './dist'
+  },
   module: {
       rules: [
           {
