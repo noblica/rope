@@ -32,8 +32,6 @@ export class DoubleBinding {
     if(this.appDiv) {
       this.appDiv.innerHTML = `<h1>JS Starter</h1>`;
     }
-
-    const checkbox = document.querySelector('.my-checkbox');
   }
 }
 

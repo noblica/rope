@@ -1,3 +1,5 @@
+import { IBoundValues } from './IBoundValues';
+
 // Helper method, for getting all of the elements with the data-g-rope attribute on them, through a query selector.
 // And converting that to an array, before returning it for easier handling.
 export function getElemArray(selector: string) {
@@ -14,6 +16,8 @@ export function setChangeListener(
   propName: any,
   classInstance: any
 ) {
+  // TODO IE11: 'change' -> on blur but necesarry for checkbox.
+  // 'input' -> on keypress basically. but not working for checkbox in IE11.
   elem.addEventListener('input', function(event) {
     const currentElem = <HTMLInputElement>event.currentTarget;
     if (currentElem) {
@@ -69,3 +73,27 @@ export function setElem(elem: HTMLElement, valueToSet: any) {
 export const cachedSetters: {
   [key: string]: Function[];
 } = {};
+
+export function defineGetterSetter(
+  boundValues: IBoundValues,
+  propName: any,
+  classInstance: any
+) {
+  // Add the current value of the property, to our value cache.
+  boundValues[propName] = boundValues[propName]
+    ? boundValues[propName]
+    : classInstance[propName];
+
+  // We define the getter and setter properties.
+  // for the getter and setter, we use the cached values,
+  // because we don't want to fall into an infinite loop
+  Object.defineProperty(classInstance, propName, {
+    get: () => boundValues[propName],
+    set: newValue => {
+      cachedSetters[propName].forEach(setterFn => setterFn(newValue));
+    }
+  });
+
+  if (!cachedSetters[propName]) {
+    cachedSetters[propName] = [];
+  }}

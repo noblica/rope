@@ -1,4 +1,9 @@
-import { getElemArray, convertToJson, cachedSetters } from './utils';
+import {
+  getElemArray,
+  convertToJson,
+  cachedSetters,
+  defineGetterSetter
+} from './utils';
 
 import { IBoundValues } from './IBoundValues';
 
@@ -20,38 +25,22 @@ export function ropeClass(boundValues: IBoundValues, classInstance: any) {
 
 function defineClassBinding(
   elem: HTMLElement,
-  classVar: any,
+  propName: any,
   className: string,
   boundValues: IBoundValues,
   classInstance: any
 ) {
-  // Add the current value of the property, to our value cache.
-  boundValues[classVar] = boundValues[classVar]
-    ? boundValues[classVar]
-    : classInstance[classVar];
-
-  setClassElem(elem, boundValues[classVar], className);
-
+  defineGetterSetter(boundValues, propName, classInstance);
+  
   const classSetter = (newValue: boolean) => {
-    boundValues[classVar] = newValue;
-
+    boundValues[propName] = newValue;
+    
     setClassElem(elem, newValue, className);
     return newValue;
   };
+  cachedSetters[propName].push(classSetter);
 
-  if (!cachedSetters[classVar]) {
-    cachedSetters[classVar] = [];
-  }
-  cachedSetters[classVar].push(classSetter);
-
-  Object.defineProperty(classInstance, classVar, {
-    get: () => boundValues[classVar],
-    set: newValue => {
-      cachedSetters[classVar].forEach((setterFn: Function) =>
-        setterFn(newValue)
-      );
-    }
-  });
+  setClassElem(elem, boundValues[propName], className);
 }
 
 function setClassElem(elem: HTMLElement, newValue: boolean, className: string) {

@@ -1,4 +1,9 @@
-import { getElemArray, setChangeListener, cachedSetters } from './utils';
+import {
+  getElemArray,
+  setChangeListener,
+  cachedSetters,
+  defineGetterSetter
+} from './utils';
 
 import { IBoundValues } from './IBoundValues';
 
@@ -20,30 +25,15 @@ function defineBinding(
   boundValues: IBoundValues,
   classInstance: any
 ) {
-  // Add the current value of the property, to our value cache.
-  boundValues[propName] = boundValues[propName]
-    ? boundValues[propName]
-    : classInstance[propName];
-
+  defineGetterSetter(boundValues, propName, classInstance);
+  
   const newSetter = (newValue: any) => {
     boundValues[propName] = newValue;
 
     return boundValues[propName];
   };
-
-  if (!cachedSetters[propName]) {
-    cachedSetters[propName] = [];
-  }
-
   cachedSetters[propName].push(newSetter);
-
-  Object.defineProperty(classInstance, propName, {
-    get: () => boundValues[propName],
-    set: newValue => {
-      cachedSetters[propName].forEach(setterFn => setterFn(newValue));
-    }
-  });
-
+  
   // Set the event listener, that listens to the change event,
   // and updates our corresponding class property.
   setChangeListener(<HTMLInputElement>elem, propName, classInstance);
