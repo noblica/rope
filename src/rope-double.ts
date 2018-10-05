@@ -9,13 +9,13 @@ import {
 import { IBoundValues } from './IBoundValues';
 
 export function ropeDouble(boundValues: IBoundValues, classInstance: any) {
-  const ropeDouble = getElemArray('[data-g-rope]');
+  const ropeDouble = getElemArray('[rope-double]');
 
   ropeDouble.forEach((elem: HTMLElement) => {
-    // The value of each data-g-rope attribute represents the
+    // The value of each rope-double attribute represents the
     // variable name that it's bound to, in the class instance.
     // We use it as a key value, in the value cache(boundValues) object, as well.
-    const propName = elem.dataset['gRope'];
+    const propName = elem.getAttribute('rope-double');
     defineBinding(elem, propName, boundValues, classInstance);
   });
 }

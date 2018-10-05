@@ -1,6 +1,6 @@
 import { IBoundValues } from './IBoundValues';
 
-// Helper method, for getting all of the elements with the data-g-rope attribute on them, through a query selector.
+// Helper method, for getting all of the elements with the rope-double attribute on them, through a query selector.
 // And converting that to an array, before returning it for easier handling.
 export function getElemArray(selector: string) {
   const elementNodes = document.querySelectorAll(selector);
