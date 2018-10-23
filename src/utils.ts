@@ -80,9 +80,7 @@ export function defineGetterSetter(
   classInstance: any
 ) {
   // Add the current value of the property, to our value cache.
-  boundValues[propName] = boundValues[propName]
-    ? boundValues[propName]
-    : classInstance[propName];
+  boundValues[propName] = boundValues[propName] || classInstance[propName];
 
   // We define the getter and setter properties.
   // for the getter and setter, we use the cached values,

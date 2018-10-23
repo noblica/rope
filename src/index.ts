@@ -3,13 +3,6 @@ import { ropeIn } from './rope-in';
 import { ropeDouble } from './rope-double';
 import { ropeClass } from './rope-class';
 
-import {
-  getElemArray,
-  setChangeListener,
-  setElem,
-  convertToJson
-} from './utils';
-
 // Using a decorator, because decorators rule.
 
 export function Rope(context?: any) {
@@ -23,11 +16,8 @@ export function Rope(context?: any) {
         const boundValues = {};
 
         ropeDouble(boundValues, this);
-
         ropeOut(boundValues, this);
-
         ropeIn(boundValues, this);
-
         ropeClass(boundValues, this);
       }
     };
