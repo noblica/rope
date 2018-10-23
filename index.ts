@@ -12,6 +12,7 @@ export class DoubleBinding {
 
   testClass: boolean;
   booleanTest: boolean;
+  booleanTest2: boolean;
   selectTest: number;
   radioTest: string;
 
@@ -24,6 +25,7 @@ export class DoubleBinding {
     this.testClass = false;
 
     this.booleanTest = true;
+    this.booleanTest2 = true;
 
     this.selectTest = 11;
 

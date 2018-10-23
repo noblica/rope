@@ -15,10 +15,16 @@ export function ropeClass(boundValues: IBoundValues, classInstance: any) {
     if (classConditionObject) {
       const classJson = convertToJson(classConditionObject);
 
-      const classVar = Object.keys(classJson)[0];
-      const className = classJson[classVar];
+      const classVariables = Object.keys(classJson);
+      classVariables.forEach(classVar => {
+        let classNameArray = classJson[classVar];
+        
+        if (!Array.isArray(classNameArray)) {
+          classNameArray = [classNameArray];
+        }
 
-      defineClassBinding(elem, classVar, className, boundValues, classInstance);
+        defineClassBinding(elem, classVar, classNameArray, boundValues, classInstance);
+      });
     }
   });
 }
@@ -26,7 +32,7 @@ export function ropeClass(boundValues: IBoundValues, classInstance: any) {
 function defineClassBinding(
   elem: HTMLElement,
   propName: any,
-  className: string,
+  classNameArray: string[],
   boundValues: IBoundValues,
   classInstance: any
 ) {
@@ -35,17 +41,20 @@ function defineClassBinding(
   const classSetter = (newValue: boolean) => {
     boundValues[propName] = newValue;
     
-    setClassElem(elem, newValue, className);
+    setClassElem(elem, newValue, classNameArray);
     return newValue;
   };
   cachedSetters[propName].push(classSetter);
 
-  setClassElem(elem, boundValues[propName], className);
+  setClassElem(elem, boundValues[propName], classNameArray);
 }
 
-function setClassElem(elem: HTMLElement, newValue: boolean, className: string) {
-  if (newValue) {
-    return elem.classList.add(className);
-  }
-  return elem.classList.remove(className);
+function setClassElem(elem: HTMLElement, newValue: boolean, classNameArray: string[]) {
+  // Have to do it for each item individually, because IE11.
+  classNameArray.forEach(className => {
+    if (newValue) {
+      return elem.classList.add(className);
+    }
+    return elem.classList.remove(className);
+  });
 }
