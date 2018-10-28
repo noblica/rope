@@ -16,9 +16,10 @@ export function setChangeListener(
   propName: any,
   classInstance: any
 ) {
+  const inputBool = elem.getAttribute('on-input');
   // TODO IE11: 'change' -> on blur but necesarry for checkbox.
   // 'input' -> on keypress basically. but not working for checkbox in IE11.
-  elem.addEventListener('input', function(event) {
+  elem.addEventListener(inputBool ? 'input' : 'change', function(event) {
     const currentElem = <HTMLInputElement>event.currentTarget;
     if (currentElem) {
       const elemType = currentElem.type;
