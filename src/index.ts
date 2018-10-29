@@ -23,3 +23,20 @@ export function Rope(context?: any) {
     };
   };
 }
+
+export function RopeWrap(functionToWrap: any) {
+  const functionContext = functionToWrap.prototype;
+  const oldStart = functionContext.start;
+
+  functionContext.start = function() {
+    const args = [].slice.call(arguments);
+    oldStart.call(functionContext, ...args);
+
+    const boundValues = {};
+
+    ropeDouble(boundValues, functionContext);
+    ropeOut(boundValues, functionContext);
+    ropeIn(boundValues, functionContext);
+    ropeClass(boundValues, functionContext);
+  }
+}
