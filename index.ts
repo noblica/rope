@@ -1,4 +1,6 @@
-import { Rope } from './src';
+declare var T: any;
+
+import { Rope, RopeWrap } from './src';
 
 // Import stylesheets
 import './style.css';
@@ -37,26 +39,59 @@ export class DoubleBinding {
   }
 }
 
-const doubleBind = new DoubleBinding();
+// const doubleBind = new DoubleBinding();
 
-setTimeout(() => {
-  doubleBind.changeMe = 'I am changed!';
-  doubleBind.changeMeToo = 'I am changed too!';
-  doubleBind.radioTest = 'female';
-  // doubleBind.changeMeDiv = 'hello again';
-  // doubleBind.testClass = true;
+T.Module.RopeTest = T.createModule({
+  start(resolve: any) {
+    this.appDiv = document.getElementById('app');
+    this.changeMe = 'test me';
+    this.changeMeToo = 'test me too';
+    this.changeMeDiv = 'hello from code';
 
-}, 1000);
-setTimeout(() => {
-  doubleBind.changeMe = 'I am changed again!';
-  doubleBind.booleanTest = false;
-  doubleBind.selectTest = 17;
-  doubleBind.radioTest = 'other';
-  // doubleBind.testClass = false;
+    this.testClass = false;
 
-}, 3000);
+    this.booleanTest = true;
+    this.booleanTest2 = true;
 
-setTimeout(() => {
-  console.log(doubleBind);
+    this.selectTest = 11;
 
-}, 5000);
+    this.radioTest = 'male';
+
+    if(this.appDiv) {
+      this.appDiv.innerHTML = `<h1>JS Starter</h1>`;
+    }
+    resolve();
+
+    timeoutChange(this);
+  }
+});
+
+RopeWrap(T.Module.RopeTest);
+
+function timeoutChange(context: any) {
+  setTimeout(() => {
+    context.changeMe = 'I am changed!';
+    context.changeMeToo = 'I am changed too!';
+    context.radioTest = 'female';
+    // context.changeMeDiv = 'hello again';
+    // context.testClass = true;
+
+  }, 1000);
+  setTimeout(() => {
+    context.changeMe = 'I am changed again!';
+    context.booleanTest = false;
+    context.selectTest = 17;
+    context.radioTest = 'other';
+    // context.testClass = false;
+
+  }, 3000);
+
+  setTimeout(() => {
+    console.log(context);
+
+  }, 5000);
+}
+
+const application = new T.Application();
+application.registerModules();
+application.start();
